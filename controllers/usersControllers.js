@@ -62,10 +62,10 @@ module.exports = {
           { _id: req.params.usersId },
           { runValidators: true, new: true }
         )
-          .then((course) =>
-            !course
+          .then((users) =>
+            !users
               ? res.status(404).json({ message: 'No users with this id!' })
-              : res.json(course)
+              : res.json(users)
           )
           .catch((err) => res.status(500).json(err));
       },
