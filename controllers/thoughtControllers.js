@@ -1,4 +1,4 @@
-const { Thought, Users } = require('../models')
+const { Thought, reactions } = require('../models')
 
 module.exports = {
 
@@ -39,7 +39,7 @@ module.exports = {
               ? res.status(404).json({ message: 'No such thought exists' })
               : Users.findOneAndUpdate(
                   { thought: req.params.thoughtId },
-                  { $pull: { students: req.params.studentId } },
+                  { $pull: { userId: req.params.userId } },
                   { new: true }
                 )
           )
@@ -82,6 +82,33 @@ module.exports = {
             !thought
               ? res.status(404).json({ message: 'No thought with this id!' })
               : res.json(course)
+          )
+          .catch((err) => res.status(500).json(err));
+      },
+
+      createReaction(req, res) {
+        Thought.findOneAndUpdate(
+          { _id: req.params.thoughtId },
+          { $addToSet: { reactions: req.body } },
+          { runValidators: true, new: true }
+        )
+          .then((thought) =>
+            !thought
+              ? res.status(404).json({ message: "No thought found with ID!" })
+              : res.json(thought)
+          )
+          .catch((err) => res.status(500).json(err));
+      },
+      deleteReaction(req, res) {
+        Thought.findOneAndUpdate(
+          { _id: req.params.thoughtId },
+          { $pull: { reactions: { reactionId: req.params.reactionId } } },
+          { runValidators: true, new: true }
+        )
+          .then((thought) =>
+            !thought
+              ? res.status(404).json({ message: "No thought found with this ID!" })
+              : res.json(thought)
           )
           .catch((err) => res.status(500).json(err));
       },
