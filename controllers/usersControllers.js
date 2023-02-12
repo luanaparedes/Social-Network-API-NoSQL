@@ -36,7 +36,7 @@ module.exports = {
 
     addUser(req, res) {
         Users.create(req, res)
-          .then((Users) => res.json(users))
+          .then((users) => res.json(users))
           .catch((err) => res.status(500).json(err));
       },
 
@@ -71,7 +71,7 @@ module.exports = {
       },
 
       addFriend(req, res) {
-        User.findOneAndUpdate(
+        Users.findOneAndUpdate(
           { _id: req.params.userId },
           { $addToSet: { friends: req.params.friendId } },
           { runValidators: true, new: true }

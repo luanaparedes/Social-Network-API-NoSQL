@@ -39,7 +39,7 @@ module.exports = {
               ? res.status(404).json({ message: 'No such thought exists' })
               : Users.findOneAndUpdate(
                   { thought: req.params.thoughtId },
-                  { $pull: { students: req.params.studentId } },
+                  { $pull: { userId: req.params.userId } },
                   { new: true }
                 )
           )

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { Users, Friends } = require('../models')
 
 const {
     getUsers,
